@@ -16,34 +16,32 @@
 			<div id="room-container" class="room-container">
 				<table id="roomList" class="roomList">
 					<tr>
-						<th class="num">Num</th>
-						<th class="room">Title</th>
+						<th class="room">Name</th>
 						<th class="go"></th>
 					</tr>
 					<tr>
-						<td class="num">1</td>
-						<td class="room">roomNum1</td>
+						<td class="room">Hyemin</td>
 						<td class="go">
-							<form id="room1-submit">
+							<form id="chat-request">
 								<div class="form-group">
-									<button type="submit" class="room1-submit">participation</button>
+									<button type="submit" class="chat-request" onclick="connect()">chat</button>
 								</div>
 							</form>
 						</td>		
 					</tr>
 					<tr>
-						<td class="num" id="lastidx">2</td>
-						<td class="room">roomNum2</td>
+						<td class="room">Minkyu</td>
 						<td class="go">
-							<form id="room2-submit">
+							<form id="chat-request1">
 								<div class="form-group">
-									<button type="submit" class="room2-submit">participation</button>
+									<button type="submit" class="chat-request1" onclick="connect()">chat</button>
 								</div>
 							</form>
 						</td>		
 					</tr>
 				</table>
 			</div>
+			<!-- createRoomForm
 			<div>
 				<form id="createRoomForm" name="createRoomForm">
 					<div class="form-group">
@@ -56,6 +54,7 @@
 					</div>
 				</form>
 			</div>
+			 -->
 		</div>
 	</div>
 
@@ -98,5 +97,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="/js/main.js"></script>
+    
   </body>
 </html>

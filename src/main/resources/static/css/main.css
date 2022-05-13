@@ -132,6 +132,10 @@ button.accent {
 	margin-top: 10px;
 }
 
+.waiting-page-container .num{
+	display : none;
+}
+
 #username-page {
     text-align: center;
 }

@@ -10,14 +10,14 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ChatController {
 
-    @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/public") //호출되는 주소
+    @MessageMapping("/chat.sendMessage/{userName}")
+    @SendTo("/topic/public/{userName}") //호출되는 주소
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
         return chatMessage;
     }
 
-    @MessageMapping("/chat.addUser")
-    @SendTo("/topic/public")
+    @MessageMapping("/chat.addUser/{userName}")
+    @SendTo("/topic/public/{userName}")
     public ChatMessage addUser(@Payload ChatMessage chatMessage,SimpMessageHeaderAccessor headerAccessor) {
         // Add username in websocket session
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());

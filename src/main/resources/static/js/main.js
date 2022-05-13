@@ -7,30 +7,19 @@ var usernameForm = document.querySelector('#usernameForm'); // 이름 입력 폼
 var messageForm = document.querySelector('#messageForm'); // 메시지 입력 창 + sendbutton
 var messageInput = document.querySelector('#message'); // 메시지 입력 창
 var messageArea = document.querySelector('#messageArea'); // 채팅이 보여지 곳  
-var connectingElement = document.querySelector('.connecting'); 
-var room1Form = document.querySelector("#room1-submit");
-var room2Form = document.querySelector("#room2-submit");
-var createRoomForm = document.querySelector("#createRoomForm");
+var connectingElement = document.querySelector('.connecting');
+var chatRequest = document.querySelector("#chat-request");
+
 
 var stompClient = null;
+var re_username = null;
 var username = null;
+// var notification = new Notification(title, options) // title: 알림창의 제목, options 알림창에 들어갈 내용(객체형태로 전달)
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
-
-function createRoom(_event) {
-	var idx = document.querySelector('#lastidx').value.trim();
-	var roomName = document.querySelector('#Title').value.trim();
-	var tag = "<tr>" + "<td class='num'>" + (idx+1) + "</td>" 
-					+ "<td class='room'>" + roomName + "</td>"
-					+ "<td class='go'>" 
-					+ "<button type='submit' class=room" + idx + "-submit>participation</button></td>"
-					+ "</tr>";
-	$("#roomList").empty().append(tag);
-}
-
 
 function randomString() {
 	const chars = '0123456789ABCDEFGHIJKLMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -42,11 +31,13 @@ function randomString() {
 	}
 	return randomstring;
 }
-function connect(event) { // 연결 
-    
-    username = randomString();
 
-    if(username) {
+function connect() { // 연결 
+    
+    re_username = randomString();
+    //username = ; // onclick을 누른 버튼의 name을 받아 username에 넣기
+	
+    if(re_username) {
 		waitingPage.classList.add('hidden');
         usernamePage.classList.add('hidden'); // usernamePage에 hidden클래스를 추가하여 css쪽에서 display:none으로 안보이게 함
         chatPage.classList.remove('hidden');
@@ -61,11 +52,14 @@ function connect(event) { // 연결
 
 
 function onConnected() {// 성공하면 /topic/public 주제에 가입하여 메시지를 주고 받음
+    
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
+    stompClient.subscribe('/topic/public/' + username, onMessageReceived);
+    stompClient.subscribe('/topic/public/' + re_username, onMessageReceived);
 
     // Tell your username to the server
-    stompClient.send("/app/chat.addUser", {}, JSON.stringify({sender: username, type: 'JOIN'}))
+    stompClient.send("/app/chat.addUser/"+ username, {}, JSON.stringify({sender: username, type: 'JOIN'}))
+    stompClient.send("/app/chat.addUser/"+ re_username, {}, JSON.stringify({sender: re_username, type: 'JOIN'}))
 
     connectingElement.classList.add('hidden');
 }
@@ -76,18 +70,17 @@ function onError(_error) {
     connectingElement.style.color = 'red';
 }
 
-
 function sendMessage(event) {
     var messageContent = messageInput.value.trim(); // messageInput에서 메시지 받아오기
 
     if(messageContent && stompClient) {
         var chatMessage = {
-            sender: username,
+            sender: re_username,
             content: messageInput.value,
             type: 'CHAT'
         };
-
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+		
+        stompClient.send("/app/chat.sendMessage/" + re_username, {}, JSON.stringify(chatMessage));
         messageInput.value = ''; // 다음 입력을 위해 messageInput 비워주기
     }
     event.preventDefault();
@@ -144,7 +137,5 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
-room1Form.addEventListener('submit', connect, true)
-room2Form.addEventListener('submit', connect, true)
-createRoomForm.addEventListener('submit',createRoom, true)
+//chatRequest.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)
