@@ -9,8 +9,57 @@
     <noscript>
       <h2>Sorry! Your browser doesn't support Javascript</h2>
     </noscript>
+	
+	<div id="waiting-page">
+		<div class="waiting-page-container">
+			<h1 class="title">Room List</h1>
+			<div id="room-container" class="room-container">
+				<table id="roomList" class="roomList">
+					<tr>
+						<th class="num">Num</th>
+						<th class="room">Title</th>
+						<th class="go"></th>
+					</tr>
+					<tr>
+						<td class="num">1</td>
+						<td class="room">roomNum1</td>
+						<td class="go">
+							<form id="room1-submit">
+								<div class="form-group">
+									<button type="submit" class="room1-submit">participation</button>
+								</div>
+							</form>
+						</td>		
+					</tr>
+					<tr>
+						<td class="num" id="lastidx">2</td>
+						<td class="room">roomNum2</td>
+						<td class="go">
+							<form id="room2-submit">
+								<div class="form-group">
+									<button type="submit" class="room2-submit">participation</button>
+								</div>
+							</form>
+						</td>		
+					</tr>
+				</table>
+			</div>
+			<div>
+				<form id="createRoomForm" name="createRoomForm">
+					<div class="form-group">
+						<input type="text" id="Title" placeholder="Title"
+							autocomplete="off" class="form-control" />
+					</div>
+					<div class="form-group">
+						<button type="submit" class="createRoom-submit">Create
+							Room</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
-    <div id="username-page">
+    <div id="username-page" class="hidden">
         <div class="username-page-container">
             <h1 class="title">Type your username</h1>
             <form id="usernameForm" name="usernameForm">
